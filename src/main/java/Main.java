@@ -9,12 +9,12 @@ public class Main {
             for (int i = 0; i < threads; i++) {
                 new Thread(new Customer(i+1)).start();
             }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Total = " + Customer.getTotal());
+            /*while (true) {
+                if (Thread.activeCount() == 2) {
+                    System.out.println("Total = " + Customer.getTotal());
+                    break;
+                }
+            }*/
         }
     }
 
