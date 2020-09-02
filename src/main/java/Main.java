@@ -1,20 +1,36 @@
 import models.Customer;
+import models.Shop;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
         if (checkArgsLength(args)) {
-            int threads = Integer.parseInt(args[0]);
-            for (int i = 0; i < threads; i++) {
+
+            /*for (int i = 0; i < Integer.parseInt(args[0]); i++) {
                 new Thread(new Customer(i+1)).start();
-            }
-            /*while (true) {
-                if (Thread.activeCount() == 2) {
-                    System.out.println("Total = " + Customer.getTotal());
-                    break;
-                }
             }*/
+
+            ExecutorService es = Executors.newFixedThreadPool(Integer.parseInt(args[0]));
+            int sum = 0;
+            List<Future<Integer>> list = new ArrayList<>();
+            for (int i = 0; i < Integer.parseInt(args[0]); i++) {
+                list.add(es.submit(new Customer(i+1)));
+            }
+            es.shutdown();
+
+            for (Future<Integer> integerFuture : list) {
+                try {
+                    sum += integerFuture.get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("Total = " + sum);
         }
     }
 
