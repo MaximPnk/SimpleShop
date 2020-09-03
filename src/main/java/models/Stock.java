@@ -8,18 +8,18 @@ import java.util.Collections;
 
 @Getter
 @Setter
-public class Shop {
+public class Stock {
     private int objectsCount = 1000;
     private ArrayList<Integer> orders = new ArrayList<>();
     private int total = 0;
-    private static Shop instance;
+    private static Stock instance;
 
-    private Shop() {
+    private Stock() {
     }
 
-    public static Shop getInstance() {
+    public static Stock getInstance() {
         if (instance == null) {
-            instance = new Shop();
+            instance = new Stock();
         }
         return instance;
     }
@@ -41,7 +41,7 @@ public class Shop {
             Thread.currentThread().interrupt();
             return;
         }
-        notifyAll();
+        notify();
         while (orders.get(customer.getId()-1) - Collections.min(orders) > 1) {
             try {
                 wait(100);

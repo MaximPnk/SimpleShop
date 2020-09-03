@@ -9,21 +9,21 @@ import java.util.concurrent.Callable;
 @Setter
 public class Customer implements Callable<Integer> {
 
-    private static final Shop SHOP = Shop.getInstance();
+    private static final Stock STOCK = Stock.getInstance();
     private int id;
     private int orderCount = 0;
     private int objectCount = 0;
 
     public Customer(int id) {
         this.id = id;
-        SHOP.getOrders().add(id-1, orderCount);
+        STOCK.getOrders().add(id-1, orderCount);
     }
 
     @Override
     public Integer call() throws Exception {
         while (!Thread.currentThread().isInterrupted()) {
             Thread.yield();
-            SHOP.buy(this, (int) (Math.random() * 10 + 1));
+            STOCK.buy(this, (int) (Math.random() * 10 + 1));
         }
         System.out.println(this);
         return objectCount;

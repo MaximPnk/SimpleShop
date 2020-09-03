@@ -1,5 +1,4 @@
 import models.Customer;
-import models.Shop;
 
 import java.util.ArrayList;
 import java.util.List;
